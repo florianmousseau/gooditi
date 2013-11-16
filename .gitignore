@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 logs
 project/project
 project/target
@@ -14,3 +15,11 @@ dist
 /RUNNING_PID
 /.settings
 /.target
+=======
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+>>>>>>> fed41ec1eb3552e2797722dd279567859709cab1
