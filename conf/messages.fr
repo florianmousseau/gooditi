@@ -1,0 +1,149 @@
+# Override default Play's validation messages
+
+# --- Constraints
+constraint.required=Obligatoire
+constraint.min=Valeur minimale: {0}
+constraint.max=Valeur maximale: {0}
+constraint.minLength=Longueur minimale: {0}
+constraint.maxLength=Longueur maximale: {0}
+constraint.email=Email
+
+# --- Formats
+format.date=Date (''{0}'')
+format.numeric=Numérique
+format.real=Réel
+
+# --- Errors
+error.invalid=Valeur non autorisée
+error.required=Champ obligatoire
+error.number=Seul les valeurs numériques sont autorisées
+error.real=Seul les valeurs réelles sont autorisées
+error.min=Doit être plus grand ou égal à {0}
+error.max=Doit être plus petit ou égal à 0}
+error.minLength=Longueur minimale: {0}
+error.maxLength=Longueur maximale: {0}
+error.email=Un email valide est obligatoire
+error.pattern=Doit satisfaire: {0}
+
+### --- play-authenticate START
+
+# play-authenticate: Initial translations
+
+apitrip.accounts.link.success=Comptes liés avec succès
+apitrip.accounts.merge.success=Comptes unifiés avec succès
+
+apitrip.verify_email.error.already_validated=Votre email a déjà été validé.
+apitrip.verify_email.error.set_email_first=Vous devez d'abord fournir un email.
+apitrip.verify_email.message.instructions_sent=Les instructions pour valider votre email ont été envoyé à l'adresse {0}.
+apitrip.verify_email.success=L'adresse E-mail  ({0}) a été validée avec succès.
+
+apitrip.reset_password.message.instructions_sent=Les instructions pour changer votre mot de passe ont été envoyées à l'adresse: {0}.
+apitrip.reset_password.message.email_not_verified=Votre email doit d'abord être vérifié, des instructions ont été envoyées. Réessayez ensuite.
+apitrip.reset_password.message.no_password_account=Votre utilisateur n'est pas configuré pour utiliser un mot de passe.
+apitrip.reset_password.message.success.auto_login=Votre mot de passe a été changé.
+apitrip.reset_password.message.success.manual_login=Votre mot de passe a été changé. Veillez vous connecter avec votre nouveau mot de passe.
+
+apitrip.change_password.error.passwords_not_same=Les mots de passe ne correspondent pas.
+apitrip.change_password.success=Mot de passe changé avec succès.
+
+apitrip.password.signup.error.passwords_not_same=Les mots de passe ne correspondent pas.
+apitrip.password.login.unknown_user_or_pw=Utilisateur et mot de passe inconnus.
+
+apitrip.password.verify_signup.subject=Confirmer mon compte
+apitrip.password.verify_email.subject=PlayAuthenticate: Confirmer votre email
+apitrip.password.reset_email.subject=PlayAuthenticate: Comment changer votre mot de passe.
+
+# play-authenticate: Additional translations
+
+apitrip.login.email.placeholder=Votre adresse email
+apitrip.login.password.placeholder=Choisir un mot de passe
+apitrip.login.password.repeat=Réitérer votre mot de passe
+apitrip.login.title=Login
+apitrip.login.password.placeholder=Mot de passe
+apitrip.login.now=Se connecter
+apitrip.login.forgot.password=Mot de passe oublié?
+apitrip.login.oauth=ou connectez-vous avec un de ces fournisseurs:
+
+apitrip.signup.title=Enregistrement
+apitrip.signup.name=Votre nom
+apitrip.signup.now=S'enregistrer maintenant
+apitrip.signup.oauth=ou enregistrez-vous avec un de ces fournisseurs:
+
+apitrip.verify.account.title=Vérification par email obligatoire
+apitrip.verify.account.before=Avant de spécifier un mot de passe, vous devez
+apitrip.verify.account.first=d'abord vérifier votre email
+
+apitrip.change.password.title=Changer votre mot de passe ici
+apitrip.change.password.cta=Changer votre mot de passe
+
+apitrip.merge.accounts.title=Unifier des comptes
+apitrip.merge.accounts.question=Voulez-vous unifier le compte ({0}) avec le compte: {1}?
+apitrip.merge.accounts.true=Oui, unifier les deux comptes
+apitrip.merge.accounts.false=Non, quitter la session et se connecter avec un autre compte
+apitrip.merge.accounts.ok=OK
+
+apitrip.link.account.title=Lier les comptes
+apitrip.link.account.question=Lier ({0}) avec votre utilisateur?
+apitrip.link.account.true=Oui, lier ce compte
+apitrip.link.account.false=Non, quitter la session et créer un nouveau compte
+apitrip.link.account.ok=OK
+
+# play-authenticate: Signup folder translations
+
+apitrip.verify.email.title=Verifier votre e-mail
+apitrip.verify.email.requirement=Avant d'utiliser Apitrip, vous devez d'abord vérifier votre email.
+apitrip.verify.email.cta=Un email a été envoyé à votre adresse avec des instructions pour vous connecter.
+
+apitrip.password.reset.title=Changer votre mot de passe
+apitrip.password.reset.cta=Changer votre mot de passe
+
+apitrip.password.forgot.title=Mot de passe oublié
+apitrip.password.forgot.cta=Envoyer les instructions pour changer le mot de passe
+
+apitrip.oauth.access.denied.title=Accès OAuth refusé
+apitrip.oauth.access.denied.explanation=Si vous voulez utiliser Apitrip avec OAuth, vous devez accepter la connexion.
+apitrip.oauth.access.denied.alternative=Si vous ne préférez pas accepter la connexion, vous pouvez toujours
+apitrip.oauth.access.denied.alternative.cta=vous enregistrer avec un nouveau compte.
+
+apitrip.token.error.title=Erreur de token
+apitrip.token.error.message=Le token reçu est soit trop vieux, soit il n'existe pas.
+
+apitrip.user.exists.title=L'utilisateur existe déjà
+apitrip.user.exists.message=Cet utilisateur existe déjà.
+
+# play-authenticate: Navigation
+apitrip.navigation.profile=Profile
+apitrip.navigation.link_more=Lier d'autres fournisseurs
+apitrip.navigation.logout=Se Déconnecter
+apitrip.navigation.login=Se Connecter
+apitrip.navigation.home=Page Principale
+apitrip.navigation.restricted=Page Protégée
+apitrip.navigation.signup=S'enregister
+
+# play-authenticate: Handler
+apitrip.handler.loginfirst=Vous devez vous connecter pour accéder à: ''{0}''
+
+# play-authenticate: Profile
+apitrip.profile.title=Profile d'utilisateur
+apitrip.profile.mail=Votre nom est {0} et votre adresse email {1}!
+apitrip.profile.unverified=non vérifiée - cliquer pour vérifier
+apitrip.profile.verified=vérifiée
+apitrip.profile.providers_many=Il y a {0} fournisseurs liés à ce compte:
+apitrip.profile.providers_one =Il y a un fournisseur lié à ce compte:
+apitrip.profile.logged=Vous êtes connecté avec:
+apitrip.profile.session=Votre ID d'utilisateur est {0} et votre session se termine le {1}
+apitrip.profile.session_endless=Votre ID d'utilisateur est {0} et votre session ne se terminera jamais
+apitrip.profile.password_change=Changer le mot de passe de votre compte
+
+# play-authenticate - sample: Index page
+apitrip.index.title=Bienvenu sur Apitrip
+apitrip.index.intro=Play Authenticate démo
+apitrip.index.intro_2=Ceci est un modèle d'application avec authentification.
+apitrip.index.intro_3=Essayez la barre de navigation pour voir les fonctions d'authentification.
+apitrip.index.heading=Entête
+apitrip.index.details=Voir les détails
+
+# play-authenticate - sample: Restricted page
+apitrip.restricted.secrets=Ils nous cachent la vérité!
+
+### --- play-authenticate END

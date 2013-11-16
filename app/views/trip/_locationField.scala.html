@@ -1,0 +1,20 @@
+@(placeField: Field)
+
+@import helper._
+@implicitField = @{ FieldConstructor(gooditiFieldConstructor.f) }
+
+<div class="form-inline">
+	@inputText(
+    	placeField,
+    	'placeholder -> "Entrez un place",
+    	'class -> "form-control locationFieldText"
+	)
+
+<div class="form-group">
+	<button class="removeLocation btn btn-danger">
+		<i class="icon-remove icon-white"></i>
+	</button>	
+</div>
+</div>
+
+

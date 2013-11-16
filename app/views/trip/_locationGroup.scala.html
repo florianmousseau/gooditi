@@ -1,0 +1,18 @@
+@(fieldLatitude: Field, fieldLongitude: Field, fieldTitle: Field, fieldDescription: Field, className: String = "location")
+
+@import helper._
+@implicitField = @{ FieldConstructor(gooditiFieldConstructor.f) }
+
+	<div class="@className">
+    	@_locationField(
+        	fieldTitle
+        )
+        
+        <div class="form-group">
+       		<textarea class="form-control " name="itineries[x].locations[x].description" placeholder="Description">@fieldDescription.value</textarea>	
+        </div>
+        <input type="hidden" class="" name="itineries[x].locations[x].latitude" value="@fieldLatitude.value">	
+        
+        <input type="hidden" class="" name="itineries[x].locations[x].longitude" value="@fieldLongitude.value">	
+
+   </div>

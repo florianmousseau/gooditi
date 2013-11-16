@@ -1,0 +1,242 @@
+@(id: Long, editTripForm: Form[Trip])
+
+@import helper._
+@implicitField = @{ FieldConstructor(gooditiFieldConstructor.f) }
+
+@main("Modifier le parcours", "editTrip") {
+
+	@_heading("Modifier le parcours")
+	
+	@form(action = routes.TripController.doEditTrip(id), 'id -> "editTripForm") {
+	
+	@_editTripButtons(id)
+
+	 		
+	 	<div class="row">
+			<div class="col-lg-8 col-lg-offset-2">
+	         	@inputText(
+               		editTripForm("title"),
+                	'placeholder -> "Titre",
+                	'class -> "form-control"
+             	)	
+
+        			@textarea(editTripForm("description"),
+        			'placeholder -> "Description",
+        			'class -> "form-control",
+        			'rows -> "3")  
+       		</div>	
+		</div>
+	 		
+        @repeat(editTripForm("itineries"), min = 1) { editItineryForm =>
+       		@_itineraryGroup(editTripForm, editItineryForm)
+       	}
+
+        @_itineraryGroup(editTripForm, 
+       		editTripForm("itineries[x]"),
+            className = "itinerary_template"
+       	)
+        
+        <a class="addItinerary btn btn-success"><i class="icon-plus"></i> Ajouter un itineraire</a>
+        
+		@_editTripButtons(id)
+    }
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiu-D3nCTBxJTBXoV_MR03nxvz7BDSr5w&sensor=false&language=fr&libraries=places"></script>	
+	<script type="text/javascript" charset="utf-8">
+	
+		var locationSize;
+		
+		var paris = new google.maps.LatLng(48.853, 2.35);
+        var mapOptions = {
+          center: paris,
+          disableDefaultUI: true, draggable: false, zoomControl: false, scrollwheel: false, disableDoubleClickZoom: true,
+          zoom: 14,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        
+		  
+        
+		
+    	$('.addItinerary').live('click', function(e) {
+    		var parentItinerary = $(this).closest(":has(.itinerary)").find('.itinerary');
+        	var template = $('.itinerary_template');
+        	parentItinerary.after('<div class="row itinerary" id="itinerary_x">' + template.html() + '</div>');
+        	renumber();
+    	})
+    	
+    	$('.removeItinerary').live('click', function(e) {
+            $(this).parents('.itinerary').remove();
+            renumber();
+        })
+        
+        $('.removeLocation').live('click', function(e) {
+            $(this).parents('.location').remove();
+            renumber();
+            calculateDirection(0);
+        })
+        
+        $('.addLocation').live('click', function(e) {
+            var template = $('.location_template');
+            var parentLocation = $(this).closest(":has(.location)").find('.location:last');
+
+            parentLocation.after('<div class="location ">' + template.html() + '</div>')
+            renumber()
+        })        
+    	
+        $('#editTripForm').submit(function() {
+            $('.itinerary_template').remove();
+            $('.location_template').remove();
+        })
+    	
+        function renumber() {
+    		
+           	maps = new Array();
+           	locationSize = new Array();
+           	var autocomplete;
+           	var input;
+
+            $('.itinerary').each(function(i) {
+            	
+            	$(this).attr('id', $(this).attr('id').replace(/itinerary\_.+?/g, 'itinerary_' + i));
+            	
+            	renumberItinerary(i);
+                
+            })
+        }
+    	
+    	function renumberItinerary(i){
+    		
+    		var itinerary = $('#itinerary_'+i);
+    		
+    		$('h2', itinerary).html("Carte " + (i + 1));
+    		
+            $('input, textarea', itinerary).each(function() {
+                $(this).attr('name', $(this).attr('name').replace(/itineries\[.+?\]/g, 'itineries[' + i + ']'));
+            })  	
+            
+            $('.map-canvas', itinerary).each(function() {
+                $(this).attr('id', $(this).attr('id').replace(/map\_canvas\_.+?/g, 'map_canvas_' + i));
+            })
+
+            $('.location', itinerary).each(function(j) {	
+            	$('input, textarea', this).each(function(k) {
+                	$(this).attr('name', $(this).attr('name').replace(/locations\[.+\]/g, 'locations[' + j + ']'))
+                   		locationSize[i] = j;
+                    
+                   		if($(this).hasClass("locationFieldText")){
+                   			
+        					autocomplete = new google.maps.places.Autocomplete(this);
+        					input = this;
+        					addAutocompleteListener(autocomplete, this, maps[i]);
+                		}
+                    })
+               	})
+               	
+            maps[i] = new google.maps.Map(document.getElementById("map_canvas_"+i), mapOptions);
+            
+			if(locationSize[i] < 1){
+ 				pinLocation(autocomplete, input, maps[i]);
+			} else {
+				calculateDirection(i);
+			}               	
+    		
+    	}
+    	
+       	function initialize() {
+
+           	renumber();
+       		
+         }
+       	
+    	$(window).load(function(){
+    		initialize();
+    	});
+	
+		function addAutocompleteListener(autocomplete, input, map) {
+		
+			google.maps.event.addListener(autocomplete, 'place_changed', function() {
+    			
+				var place = autocomplete.getPlace();
+				
+				var latitudeFieldName = $(input).attr("name").replace("title", "latitude");
+				var longitudeFieldName = $(input).attr("name").replace("title", "longitude");
+
+				$("input[name='"+latitudeFieldName+"']").val(place.geometry.location.lat());
+				$("input[name='"+longitudeFieldName+"']").val(place.geometry.location.lng());
+				
+				renumber();
+				
+    			
+  			});
+		}
+		
+		function pinLocation(autocomplete, input, map) {
+			
+			var marker = new google.maps.Marker({
+				map: map
+			});
+			
+			marker.setVisible(false);
+			input.className = '';
+			var place = autocomplete.getPlace();
+			if (!place || !place.geometry) {
+  				input.className = 'notfound';
+  				return;
+			}
+
+			if (place.geometry.viewport) {
+  				map.fitBounds(place.geometry.viewport);
+			} else {
+  				map.setCenter(place.geometry.location);
+ 				map.setZoom(17);
+			}
+
+			marker.setPosition(place.geometry.location);
+			marker.setVisible(true);
+
+		}
+		
+		function calculateDirection(index) {
+			
+			var directionsService = new google.maps.DirectionsService();
+			var directionsDisplay = new google.maps.DirectionsRenderer();
+			
+			directionsDisplay.setMap(maps[index]);
+			
+			if(locationSize[index] < 1){
+				return;
+			}
+			
+			start = new google.maps.LatLng($("input[name='itineries["+index+"].locations[0].latitude']").val(),$("input[name='itineries["+index+"].locations[0].longitude']").val());
+			end = new google.maps.LatLng($("input[name='itineries["+index+"].locations["+locationSize[index]+"].latitude']").val(),$("input[name='itineries["+index+"].locations["+locationSize[index]+"].longitude']").val());
+			
+			var waypts = [];
+			
+			for (var i = 1; i < locationSize[index]; i++) {
+				waypts.push({
+					location:new google.maps.LatLng($("input[name='itineries["+index+"].locations["+i+"].latitude']").val(),$("input[name='itineries["+index+"].locations["+i+"].longitude']").val()),
+					stopover:true
+				});
+			}
+			
+			var request = {
+				origin:start,
+				destination:end,
+			    waypoints: waypts,
+			    optimizeWaypoints: true,
+				travelMode: google.maps.TravelMode.WALKING 
+			};
+			directionsService.route(request, function(result, status) {
+				if (status == google.maps.DirectionsStatus.OK) {
+					directionsDisplay.setDirections(result);
+				}
+   			});
+		}
+	  
+    </script>
+}
+
+
+
+
+    
+    

@@ -1,7 +1,12 @@
-@(message: String)
+@(trips: List[Trip])
 
-@main("Welcome to Play 2.1") {
-    
-    @play20.welcome(message, style = "Java")
-    
+@main("Gooditi","index") {
+
+<div class="row">
+	<div class="col-lg-12">
+		@trip._listTrip(trips) 
+     </div>
+</div>
+
+
 }

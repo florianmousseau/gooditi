@@ -1,0 +1,40 @@
+@(loginForm: Form[_])
+
+@import helper._
+@implicitField = @{ FieldConstructor(gooditiFieldConstructor.f) }
+
+
+@main("Se connecter","login") {
+
+	@_heading("Se connecter")
+
+      <div class="row">
+        <div class="col-lg-6">
+    	@helper.form(routes.Application.doLogin) {
+          <h2>Connexion</h2>
+        
+      		@inputText(
+  				loginForm("email"),
+  				'placeholder -> "Adresse électronique",
+  				'class -> "form-control"
+			)  
+          
+            @inputPassword(
+                loginForm("password"),
+                'placeholder -> "Mot de passe",
+                'class -> "form-control"
+             )
+          
+       		<input type="submit" value="Se connecter" class="btn btn-primary"><br/>
+    	}
+        </div>
+        <div class="col-lg-6">
+          <h2>Inscription</h2>
+          	<p>Cr&eacute;ez votre compte. Inscrivez-vous maintenant!
+
+			</p>
+         	<p><a class="btn btn-primary" href="@routes.Application.signup()">Inscription</a></p>
+        </div>
+      </div>
+
+}

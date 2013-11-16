@@ -1,0 +1,13 @@
+@(trip: Trip, isEditable: Boolean)
+
+@import helper._
+
+<div class="row">
+	<div class="col-lg-12 text-center">
+		<div class="btn-group">
+<!--         	<a href="@routes.TripController.doDeleteTrip(trip.id)" class="btn">Supprimer</a> -->
+	@if(isEditable){
+        <a href="@routes.TripController.editTrip(trip.id)" class="btn"><i class="icon-edit"></i> Modifier</a>
+	}
+	</div>
+</div>

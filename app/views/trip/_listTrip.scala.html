@@ -1,0 +1,14 @@
+@(trips: List[Trip])
+
+@import helper._
+
+@for(trip <- trips) {
+<div class="col-lg-12 col-sm-12">
+<!-- 	<a href="#" class="btn btn-more btn-mini">More</a> -->
+	<a href="@routes.TripController.viewTrip(trip.id)">
+		<h3>@trip.title</h3>
+	</a>
+		<p>@trip.description</p>
+	<div class="content-divider"></div>
+</div>
+}

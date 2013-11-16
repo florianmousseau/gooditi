@@ -1,0 +1,24 @@
+@(customTrips: List[Trip], requestPublishedTrips : List[Trip], publishedTrips : List[Trip])
+
+@import helper._
+
+@main("Mes parcours", "myTrips") {
+
+	<h1>Mes parcours</h1>
+	
+	<h2>Mes parcours personnalise</h2>
+	
+	@_listTrip(customTrips) 
+
+	
+	<a href="@routes.TripController.createTrip()" class="btn btn-primary">Creer un nouveau parcours</a>
+
+	<h2>Mes parcours en attente de publication</h2>
+	
+	@_listTrip(requestPublishedTrips) 
+	
+	<h2>Mes parcours publie</h2>
+	
+	@_listTrip(publishedTrips) 
+
+}

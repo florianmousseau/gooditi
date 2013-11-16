@@ -1,0 +1,58 @@
+@(editTripForm: Form[Trip], field: Field, className: String = "itinerary")
+
+@import helper._
+@implicitField = @{ FieldConstructor(gooditiFieldConstructor.f) }
+
+<div class="@className" id="itinerary_x">
+		<div class="content-divider"></div>
+		<h2 class="text-center">Carte</h2>
+	 	<div class="row">
+			<div class="col-lg-8 col-lg-offset-2">
+	         	@inputText(
+               		field("title"),
+                	'placeholder -> "Titre",
+                	'class -> "form-control"
+             	)	
+
+        			@textarea(field("Description"),
+        			'placeholder -> "Description",
+        			'class -> "form-control",
+        			'rows -> "3")  
+       		</div>	
+		</div>
+
+	<div class="row " >
+    	<div class="col-lg-6">	
+			<div>
+    			<div class="well">   
+        		<a class="removeItinerary btn btn-danger pull-right"><i class="icon-trash"></i> Supprimer la carte</a>
+        
+        		<div class="locations">
+        
+        		@repeat(field("locations"), min = 1) { location =>
+        			@_locationGroup(
+        				location("latitude"),
+        				location("longitude"),
+        				location("title"),
+        				location("description"))
+        		}
+            
+        		@_locationGroup(
+        			field("locations[x].latitude"),
+        			field("locations[x].longitude"),
+        			field("locations[x].title"),
+        			field("locations[x].description"),
+            		className = "location_template"
+        		)
+			</div>
+        	<a class="addLocation btn btn-success"><i class="icon-plus"></i> Ajouter une place</a>
+			</div>
+  		</div>
+     </div>
+     	<div class="col-lg-6">
+			<div id="container">
+				<div class="map-canvas" id="map_canvas_X"></div>
+			</div>
+        </div>
+	</div>
+</div>

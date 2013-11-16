@@ -1,0 +1,23 @@
+@(requestPublishedTrips : List[Trip])
+
+@import helper._
+
+@main("Admin") {
+
+<h1>Admin</h1>
+<h2>Request published trip</h2>
+
+	<ul>
+        @for(trip <- requestPublishedTrips) {
+            <li>
+                @trip.title
+                
+                <a href="@routes.TripController.doDeleteTrip(trip.id)" class="btn">Supprimer</a>
+                
+                <a href="@routes.TripController.doPublishTrip(trip.id)" class="btn">publier</a>
+                
+            </li>
+        }
+    </ul>
+
+}

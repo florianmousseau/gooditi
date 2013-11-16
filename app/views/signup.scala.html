@@ -1,0 +1,44 @@
+@(signupForm: Form[_])
+
+@import helper._
+@implicitField = @{ FieldConstructor(gooditiFieldConstructor.f) }
+
+@main("Inscription","signup") {
+
+	@_heading("Inscription")
+
+	<div class="row">
+        <div class="col-lg-12">
+    		@helper.form(routes.Application.doSignup) {
+ 
+             	@inputText(
+               		signupForm("name"),
+                	'placeholder -> "Nom d'utilisateur",
+                	'class -> "form-control"
+                	
+             	)
+
+
+      			@inputText(
+  					signupForm("email"),
+  					'placeholder -> "Adresse électronique",
+  					'class -> "form-control"
+				)       
+
+             	@inputPassword(
+                	signupForm("password"),
+                	'placeholder -> "Mot de passe",
+                	'class -> "form-control"
+             	)
+       
+             	@inputPassword(
+                	signupForm("repeatPassword"),
+              		'placeholder -> "Confirmer le mot de passe",
+              		'class -> "form-control"
+             	)
+
+       		<input type="submit" value="Soumettre" class="btn btn-lg btn-primary btn-block">
+    	}
+		</div>
+	</div>
+}

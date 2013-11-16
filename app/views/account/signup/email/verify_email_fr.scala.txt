@@ -1,0 +1,9 @@
+@(verificationUrl: String, token: String, name: String, email: String)Bonjour @name, 
+
+
+Bienvenue sur Gooditi.com !
+Pour confirmer votre inscription, veuillez suivre le lien ci-dessous :
+@verificationUrl
+
+A tout de suite !<br />
+L'équipe de Gooditi.com
