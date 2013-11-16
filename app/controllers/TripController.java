@@ -9,6 +9,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
+import be.objectify.deadbolt.java.actions.SubjectPresent;
 
 public class TripController extends Controller {
 
@@ -98,6 +99,7 @@ public class TripController extends Controller {
 		return redirect(routes.TripController.admin());
 	}
 	
+	@SubjectPresent
 	public static Result admin() {
 		return ok(views.html.admin.render(Trip.findRequestPublishedTrip()));
 	}
