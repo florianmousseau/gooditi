@@ -14,6 +14,7 @@ import providers.MyUsernamePasswordAuthProvider;
 import providers.MyUsernamePasswordAuthProvider.MyLogin;
 import providers.MyUsernamePasswordAuthProvider.MySignup;
 import views.html.index;
+import views.html.home;
 import views.html.login;
 import views.html.profile;
 import views.html.restricted;
@@ -33,6 +34,10 @@ public class Application extends Controller {
 	
 	public static Result index() {
 		return ok(index.render(Trip.allPublishedTrip()));
+	}
+	
+	public static Result home() {
+		return ok(home.render(Trip.allPublishedTrip()));
 	}
 
 	public static User getLocalUser(final Session session) {

@@ -1,6 +1,12 @@
 import java.util.Arrays;
 
 import models.SecurityRole;
+import play.Application;
+import play.GlobalSettings;
+import play.mvc.Call;
+import play.mvc.Http.RequestHeader;
+import play.mvc.Result;
+import play.mvc.Results;
 
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.PlayAuthenticate.Resolver;
@@ -9,11 +15,12 @@ import com.feth.play.module.pa.exceptions.AuthException;
 
 import controllers.routes;
 
-import play.Application;
-import play.GlobalSettings;
-import play.mvc.Call;
-
 public class Global extends GlobalSettings {
+
+	@Override
+	public Result onHandlerNotFound(RequestHeader request) {
+		return Results.notFound(views.html.errors.error404.render());
+	}
 
 	public void onStart(Application app) {
 		PlayAuthenticate.setResolver(new Resolver() {

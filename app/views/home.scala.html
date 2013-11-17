@@ -1,69 +1,12 @@
-@(title: String, pageId: String = "")(content: Html)
+@(trips: List[Trip])
 
-@import be.objectify.deadbolt.java.views.html._
-@import be.objectify.deadbolt.core.utils.TemplateUtils._
-
-<!DOCTYPE html>
-<html lang="@lang().code()">
-  <head>
-    <title>@title</title>
-    
-    <meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-    <meta name="description" content="Gooditi">
-    <meta name="author" content="Florian Mousseau">
-    
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-	<script src="@routes.Assets.at("js/bootstrap.min.js")"></script>
-	<script src="@routes.Application.jsRoutes" defer="defer"></script>
-	<script src="@routes.Assets.at("js/modernizr.js")" type="text/javascript"></script>
-	
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css">
-	<link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,700'>	
-	
-    <link href="@routes.Assets.at("stylesheets/main.min.css")" rel="stylesheet">
-    <link href="@routes.Assets.at("css/bootstrap.min.css")" rel="stylesheet">
-    
-
-    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
-  </head>
-
-	<body data-spy="scroll" data-target=".navbar" data-offset='61'>
-		<nav class="navbar navbar-fixed-top">
-			<div class="container" data-start="padding: 15px 0px;" data-200="padding: 0px 0px;">
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				<a href="/" class="navbar-brand"><img class="img-responsive" src="http://placehold.it/166x40" alt=""></a>
-				<div class="nav-collapse collapse navbar-responsive-collapse">
-					<ul class="nav navbar-nav pull-right">
-    		@subjectPresentOr() {
-          	@defining(Application.getLocalUser(session())) { user =>
-              <li><a href="@routes.TripController.myTrips()">Mes parcours</a></li>
-              <li><a href="@com.feth.play.module.pa.controllers.routes.Authenticate.logout()">@Messages("apitrip.navigation.logout")</a></li>
-            }
-          	}{
-      			<li><a href="@routes.Application.login()">@Messages("apitrip.navigation.login")</a></li>
-    		}
-					</ul>
-				</div>
-			</div>
-		</nav>  
-
-    <div class="container" id="@pageId">
-		@content
-    </div>
-		<script>
-			if ($('.navbar-toggle:visible').length) {
-				$('.navbar a').click(function () { $(".nav-collapse").collapse("hide") });
-			}
-		</script>
-  </body>
-</html>
+<div class="row">
+	<div id="gooditi">
+          <a href="/"><img class="img-responsive" src="http://placehold.it/350x150" alt="Gooditi.com"></a>
+     </div>
+</div>
+<div class="row">
+	<div class="col-lg-12">
+		@trip._listTrip(trips) 
+     </div>
+</div>

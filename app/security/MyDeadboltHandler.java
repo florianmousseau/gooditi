@@ -3,6 +3,7 @@ package security;
 import models.User;
 import play.mvc.Http;
 import play.mvc.Result;
+import play.mvc.Results;
 import be.objectify.deadbolt.java.AbstractDeadboltHandler;
 import be.objectify.deadbolt.java.DynamicResourceHandler;
 import be.objectify.deadbolt.core.models.Subject;
@@ -52,6 +53,6 @@ public class MyDeadboltHandler extends AbstractDeadboltHandler {
 		// if the user has a cookie with a valid user and the local user has
 		// been deactivated/deleted in between, it is possible that this gets
 		// shown. You might want to consider to sign the user out in this case.
-		return forbidden("Forbidden");
+		return Results.notFound(views.html.errors.error404.render());
 	}
 }
