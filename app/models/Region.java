@@ -71,6 +71,16 @@ public class Region extends Model {
 		return find.byId(id);
 	}
 	
+	
+	public static String fullUri(Region region) {
+		
+		if(region.parent == null){
+			return "/" + region.uri;
+		}
+		
+		return Region.fullUri(region.parent) + "/" + region.uri;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -78,6 +88,7 @@ public class Region extends Model {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

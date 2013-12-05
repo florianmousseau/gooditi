@@ -128,4 +128,8 @@ public class Trip extends Model {
 		
 		return trips;
 	}
+	
+	public static String fullUri(Trip trip){
+		return Region.fullUri(trip.region) + "/" + trip.uri;
+	}
 }
