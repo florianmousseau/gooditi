@@ -2,6 +2,7 @@ package models;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -26,6 +27,8 @@ public class Trip extends Model {
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	public User author;
+	
+	public String uri;
 
 	@Required
 	public String title;
@@ -36,11 +39,18 @@ public class Trip extends Model {
 	
 	public Date publishedDate;
 	
+	@ManyToOne
+	public Region region;
+	
 	@OneToMany(cascade = CascadeType.ALL)
 	public List<Itinerary> itineries = new ArrayList<Itinerary>();
 
 	public static Finder<Long, Trip> find = new Finder<Long, Trip>(Long.class,
 			Trip.class);
+	
+	public static Trip findPublishedTripByUri(String uri) {
+		return find.where().and(Expr.eq("uri", uri), Expr.isNotNull("publishedDate")).findUnique();
+	}
 
 	public static List<Trip> findCustomTrip(final User author) {
 		return find.where().and(Expr.eq("author", author), Expr.isNull("requestPublishDate")).findList();
@@ -79,7 +89,9 @@ public class Trip extends Model {
 		Trip clone = new Trip();
 		clone.author = this.author;
 		clone.title = this.title;
+		clone.uri = this.uri;
 		clone.description = this.description;
+		clone.region = this.region;
 		clone.itineries = new ArrayList<Itinerary>();
 		for(Itinerary itineray : this.itineries){
 			clone.itineries.add(itineray.duplicate());
@@ -101,6 +113,19 @@ public class Trip extends Model {
 	
 	public static List<Trip> allPublishedTrip() {
 		return find.where(Expr.isNotNull("publishedDate")).findList();
-
+	}
+	
+	public static List<Trip> findPublishedTripByRegion(Region region) {
+		
+		List<Trip> trips = new LinkedList<Trip>();
+		List<Region> regions = Region.findRegionAndChildren(region);
+		
+		for(Trip trip : allPublishedTrip()) {
+			if(regions.contains(trip.region)){
+				trips.add(trip);
+			}
+		}
+		
+		return trips;
 	}
 }

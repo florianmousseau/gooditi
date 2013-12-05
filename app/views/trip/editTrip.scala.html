@@ -20,10 +20,23 @@
                 	'class -> "form-control"
              	)	
 
-        			@textarea(editTripForm("description"),
+        		@textarea(editTripForm("description"),
         			'placeholder -> "Description",
         			'class -> "form-control",
-        			'rows -> "3")  
+        			'rows -> "3") 
+        			
+        		@inputText(
+               		editTripForm("uri"),
+                	'placeholder -> "uri",
+                	'class -> "form-control"
+             	)
+        			
+        		<select name="region.id">
+    				@for(region <- Region.findAll){
+        				<option value="@region.id">@region.longName</option>
+    				}
+				</select>
+        			 
        		</div>	
 		</div>
 	 		

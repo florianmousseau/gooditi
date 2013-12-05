@@ -2,17 +2,21 @@ package controllers;
 
 import java.util.Date;
 
+import org.apache.commons.lang3.StringUtils;
+
+import models.Region;
 import models.Trip;
 import models.User;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Results;
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 import be.objectify.deadbolt.java.actions.SubjectPresent;
 
 public class TripController extends Controller {
-
+	
 	@Restrict(@Group(Application.USER_ROLE))
 	public static Result myTrips() {
 		final User user = Application.getLocalUser(session());
@@ -60,6 +64,17 @@ public class TripController extends Controller {
 		return ok(views.html.trip.viewTrip.render(trip, Trip.isEditable(id, Application.getLocalUser(session()))));
 	}
 	
+	public static Result viewPublishedTrip(String countryUri, String regionUri1, String regionUri2,String  uri) {
+		
+		Trip trip = Trip.findPublishedTripByUri(uri);
+		
+		if(trip == null){
+			return Results.notFound(views.html.errors.error404.render());
+		}
+		
+		return ok(views.html.trip.viewTrip.render(trip, Trip.isEditable(trip.id, Application.getLocalUser(session()))));
+	}
+	
 
 	@Restrict(@Group(Application.USER_ROLE))
 	public static Result doEditTrip(Long id) {
@@ -71,6 +86,9 @@ public class TripController extends Controller {
         
         Trip updatedTrip = tripForm.get();
         updatedTrip.id = id;
+        if(updatedTrip.region != null){
+        	updatedTrip.region = Region.findById(updatedTrip.region.id);
+        }
         
         Trip.update(updatedTrip);
         
@@ -99,9 +117,29 @@ public class TripController extends Controller {
 		return redirect(routes.TripController.admin());
 	}
 	
+	static Form<Region> createRegionForm = Form.form(Region.class);
+	
 	@SubjectPresent
 	public static Result admin() {
-		return ok(views.html.admin.render(Trip.findRequestPublishedTrip()));
+		return ok(views.html.admin.render(Trip.findRequestPublishedTrip(), createRegionForm));
 	}
 
+	@Restrict(@Group(Application.USER_ROLE))
+	public static Result doCreateRegion() {
+		Form<Region> filledForm = createRegionForm.bindFromRequest();
+		if (filledForm.hasErrors()) {
+			return redirect(routes.TripController.admin());
+		} else {
+			Region regionToCreate = filledForm.get();
+			
+			if(StringUtils.isNumeric(filledForm.field("parentId").value())){
+				Region parent = Region.find.byId(Long.valueOf(filledForm.field("parentId").value()));
+				regionToCreate.parent = parent;
+			}
+			
+			
+			Region.create(regionToCreate);
+			return redirect(routes.TripController.admin());
+		}
+	}
 }

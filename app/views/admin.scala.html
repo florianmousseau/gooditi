@@ -1,4 +1,4 @@
-@(requestPublishedTrips : List[Trip])
+@(requestPublishedTrips : List[Trip], createRegionForm : Form[Region])
 
 @import helper._
 
@@ -19,5 +19,34 @@
             </li>
         }
     </ul>
+    
+    <h2>Regions</h2>
+
+	<ul>
+        @for(region <- Region.findAll) {
+            <li>
+                @region.id - @region.longName - @region.regionType
+                
+            </li>
+        }
+    </ul>
+    @form(routes.TripController.doCreateRegion()) {
+        
+    	@inputText(createRegionForm("longName"), '_label -> "longName")
+    	@inputText(createRegionForm("shortName"), '_label -> "shortName")
+    	@inputText(createRegionForm("uri"), '_label -> "uri")
+    	@inputText(createRegionForm("parentId"), '_label -> "parentId")
+    	
+    	<select name="regionType">
+    		@for(regionType <- RegionType.values()){
+        		<option value="@regionType.name">@regionType.name</option>
+    		}
+		</select>
+            
+        	<div class="actions">
+            	<input type="submit" value="Create" class="btn primary">
+        	</div>
+        
+    }
 
 }

@@ -1,0 +1,7 @@
+package models;
+
+
+public enum RegionType {
+	
+	COUNTRY,ADMINISTRATIVE_AREA_LEVEL_1, ADMINISTRATIVE_AREA_LEVEL_2, LOCALITY;
+}

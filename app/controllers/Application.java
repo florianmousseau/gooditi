@@ -3,11 +3,13 @@ package controllers;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import models.Region;
 import models.Trip;
 import models.User;
 import play.Routes;
 import play.data.Form;
 import play.mvc.Controller;
+import play.mvc.Results;
 import play.mvc.Http.Session;
 import play.mvc.Result;
 import providers.MyUsernamePasswordAuthProvider;
@@ -38,6 +40,39 @@ public class Application extends Controller {
 	
 	public static Result home() {
 		return ok(home.render(Trip.allPublishedTrip()));
+	}
+	
+	public static Result countryList(String uri) {
+		
+		Region country = Region.findCountryByUri(uri);
+		
+		if(country == null){
+			return Results.notFound(views.html.errors.error404.render());
+		}
+		
+		return ok(index.render(Trip.findPublishedTripByRegion(country)));
+	}
+	
+	public static Result regionList(String countryUri, String regionUri) {
+		
+		Region region = Region.findRegionByUri(countryUri, regionUri);
+		
+		if(region == null){
+			return Results.notFound(views.html.errors.error404.render());
+		}
+		
+		return ok(index.render(Trip.findPublishedTripByRegion(region)));
+	}
+	
+	public static Result regionList2(String countryUri, String regionUri1, String regionUri2) {
+		
+		Region region = Region.findRegionByUri(regionUri2);
+		
+		if(region == null){
+			return Results.notFound(views.html.errors.error404.render());
+		}
+		
+		return ok(index.render(Trip.findPublishedTripByRegion(region)));
 	}
 
 	public static User getLocalUser(final Session session) {
@@ -104,5 +139,4 @@ public class Application extends Controller {
 	public static String formatTimestamp(final long t) {
 		return new SimpleDateFormat("yyyy-dd-MM HH:mm:ss").format(new Date(t));
 	}
-
 }

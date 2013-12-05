@@ -29,6 +29,17 @@ create table location_point (
   constraint pk_location_point primary key (id))
 ;
 
+create table region (
+  id                        bigint not null,
+  long_name                 varchar(255),
+  short_name                varchar(255),
+  uri                       varchar(255),
+  region_type               integer,
+  parent_id                 bigint,
+  constraint ck_region_region_type check (region_type in (0,1,2,3)),
+  constraint pk_region primary key (id))
+;
+
 create table security_role (
   id                        bigint not null,
   role_name                 varchar(255),
@@ -50,10 +61,12 @@ create table token_action (
 create table trip (
   id                        bigint not null,
   author_id                 bigint,
+  uri                       varchar(255),
   title                     varchar(255),
   description               varchar(255),
   request_publish_date      timestamp,
   published_date            timestamp,
+  region_id                 bigint,
   constraint pk_trip primary key (id))
 ;
 
@@ -93,6 +106,8 @@ create sequence linked_account_seq;
 
 create sequence location_point_seq;
 
+create sequence region_seq;
+
 create sequence security_role_seq;
 
 create sequence token_action_seq;
@@ -109,10 +124,14 @@ alter table linked_account add constraint fk_linked_account_user_2 foreign key (
 create index ix_linked_account_user_2 on linked_account (user_id);
 alter table location_point add constraint fk_location_point_itinerary_3 foreign key (itinerary_id) references itinerary (id) on delete restrict on update restrict;
 create index ix_location_point_itinerary_3 on location_point (itinerary_id);
-alter table token_action add constraint fk_token_action_targetUser_4 foreign key (target_user_id) references users (id) on delete restrict on update restrict;
-create index ix_token_action_targetUser_4 on token_action (target_user_id);
-alter table trip add constraint fk_trip_author_5 foreign key (author_id) references users (id) on delete restrict on update restrict;
-create index ix_trip_author_5 on trip (author_id);
+alter table region add constraint fk_region_parent_4 foreign key (parent_id) references region (id) on delete restrict on update restrict;
+create index ix_region_parent_4 on region (parent_id);
+alter table token_action add constraint fk_token_action_targetUser_5 foreign key (target_user_id) references users (id) on delete restrict on update restrict;
+create index ix_token_action_targetUser_5 on token_action (target_user_id);
+alter table trip add constraint fk_trip_author_6 foreign key (author_id) references users (id) on delete restrict on update restrict;
+create index ix_trip_author_6 on trip (author_id);
+alter table trip add constraint fk_trip_region_7 foreign key (region_id) references region (id) on delete restrict on update restrict;
+create index ix_trip_region_7 on trip (region_id);
 
 
 
@@ -133,6 +152,8 @@ drop table if exists itinerary;
 drop table if exists linked_account;
 
 drop table if exists location_point;
+
+drop table if exists region;
 
 drop table if exists security_role;
 
@@ -155,6 +176,8 @@ drop sequence if exists itinerary_seq;
 drop sequence if exists linked_account_seq;
 
 drop sequence if exists location_point_seq;
+
+drop sequence if exists region_seq;
 
 drop sequence if exists security_role_seq;
 

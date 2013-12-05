@@ -61,8 +61,13 @@ GET   	/requestpublish/:id   		controllers.TripController.doRequestPublishedTrip
 GET   	/admin   					controllers.TripController.admin()
 GET   	/admin/publish/:id  		controllers.TripController.doPublishTrip(id: Long)
 
-
-
+POST   	/createRegion   			controllers.TripController.doCreateRegion
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
+
+GET     /:uri                      controllers.Application.countryList(uri: String)
+GET     /:countryUri/:regionUri    controllers.Application.regionList(countryUri: String, regionUri: String)
+GET     /:countryUri/:regionUri1/:regionUri2   controllers.Application.regionList2(countryUri: String, regionUri1: String, regionUri2: String)
+
+GET     /:countryUri/:regionUri1/:regionUri2/:tripUri   controllers.TripController.viewPublishedTrip(countryUri: String, regionUri1: String, regionUri2: String, tripUri: String)
