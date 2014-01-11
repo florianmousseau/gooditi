@@ -20,6 +20,21 @@
         }
     </ul>
     
+<h2>Published trip</h2>
+
+	<ul>
+        @for(trip <- Trip.allPublishedTrip) {
+            <li>
+                @trip.title
+                
+                <a href="@routes.TripController.doDeleteTrip(trip.id)" class="btn">Supprimer</a>
+                
+                <a href="@routes.TripController.doPublishTrip(trip.id)" class="btn">publier</a>
+                
+            </li>
+        }
+    </ul>    
+    
     <h2>Regions</h2>
 
 	<ul>
