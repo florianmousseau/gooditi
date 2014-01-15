@@ -30,7 +30,7 @@
         <div class="col-lg-6">
         	@for(j <- 1  to myTrip.itineries(i-1).locations.size) {
         		<h3>
-        		@defining(if(j-1 == myTrip.itineries.size) "icons/spotlight/spotlight-waypoint-b.png" else "icons/spotlight/spotlight-waypoint-a.png" ) { name =>
+        		@defining(if(j-1 == myTrip.itineries(i-1).locations.size) "icons/spotlight/spotlight-waypoint-b.png" else "icons/spotlight/spotlight-waypoint-a.png" ) { name =>
         			<img src="http://mt.google.com/vt/icon?psize=16&amp;font=fonts/Roboto-Regular.ttf&amp;color=ff330000&amp;name=@{name}&amp;ax=44&amp;ay=48&amp;scale=1&amp;text=@{TripUtil.numberToLetter(j)}">
 				}
         		 	@myTrip.itineries(i-1).locations(j-1).title
