@@ -17,7 +17,7 @@ public class Itinerary extends Model {
 
 	@Id
 	public Long id;
-
+	
 	public String title;
 	
 	public String description;
