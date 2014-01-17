@@ -74,6 +74,10 @@ public class Region extends Model {
 	
 	public static String fullUri(Region region) {
 		
+		if(region == null){
+			return "/";
+		}
+		
 		if(region.parent == null){
 			return "/" + region.uri;
 		}
