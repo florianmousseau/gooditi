@@ -74,9 +74,11 @@ public class Trip extends Model {
 		find.ref(id).delete();
 	}
 	
-	public static void update(Trip trip) {
-		Ebean.saveAssociation(trip, "itineries");
-		Ebean.update(trip);
+	public static void update(Trip formTrip) {
+		Trip trip = Ebean.find(Trip.class, formTrip.id);
+		Ebean.delete(trip.itineries);
+		Ebean.saveAssociation(formTrip, "itineries");
+		Ebean.update(formTrip);
 	}
 	
 	public static boolean editable(final User author) {
@@ -84,24 +86,6 @@ public class Trip extends Model {
 		return true;
 	}
 	
-	public Trip duplicate()  {
-		
-		Trip clone = new Trip();
-		clone.author = this.author;
-		clone.title = this.title;
-		clone.uri = this.uri;
-		clone.description = this.description;
-		clone.region = this.region;
-		clone.itineries = new ArrayList<Itinerary>();
-		for(Itinerary itineray : this.itineries){
-			clone.itineries.add(itineray.duplicate());
-		}
-		
-		return clone;
-		
-	
-	}
-
 	public static List<Trip> findRequestPublishedTrip() {
 		return find.where().and(Expr.isNull("publishedDate"), Expr.isNotNull("requestPublishDate")).findList();
 	}
@@ -132,4 +116,22 @@ public class Trip extends Model {
 	public static String fullUri(Trip trip){
 		return Region.fullUri(trip.region) + "/" + trip.uri;
 	}
+	
+	public Trip duplicate()  {
+		
+		Trip clone = new Trip();
+		clone.author = this.author;
+		clone.title = this.title;
+		clone.uri = this.uri;
+		clone.description = this.description;
+		clone.region = this.region;
+		clone.itineries = new ArrayList<Itinerary>();
+		for(Itinerary itineray : this.itineries){
+			clone.itineries.add(itineray.duplicate());
+		}
+		
+		return clone;
+	}	
 }
+
+
